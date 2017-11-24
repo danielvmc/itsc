@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Coin;
 use App\Price;
+use Carbon\Carbon;
 use Unirest\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
