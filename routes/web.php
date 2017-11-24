@@ -149,10 +149,12 @@ Route::get('update', function () {
 
         $coin = Coin::where('symbol', '=', $symbol)->first();
 
-        $startOfDay = Carbon::startOfDay();
+        $startOfDay = Carbon::today();
 
-        $lastBtcPrice = (float) $coin->prices()->first()->price_btc;
-        $lastUsdPrice = (float) $coin->prices()->first()->price_usd;
+        $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
+
+        $lastBtcPrice = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_btc;
+        $lastUsdPrice = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
         $percentChangeBtc = getPercentageChange($lastBtcPrice, $priceBtc);
         $percentChangeUsd = getPercentageChange($lastUsdPrice, $priceUsd);

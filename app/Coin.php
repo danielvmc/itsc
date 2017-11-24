@@ -18,4 +18,9 @@ class Coin extends Model
     {
         return $this->prices()->latest();
     }
+
+    public function firstPrice()
+    {
+        return $this->prices()->orderBy('created_at', 'asc');
+    }
 }
