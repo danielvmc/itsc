@@ -2,6 +2,7 @@
 
 use App\Coin;
 use App\Price;
+use Carbon\Carbon;
 use Unirest\Request;
 use GuzzleHttp\Client;
 
@@ -147,6 +148,8 @@ Route::get('update', function () {
         $percentChangeUsd = (float) 0;
 
         $coin = Coin::where('symbol', '=', $symbol)->first();
+
+        $startOfDay = Carbon::startOfDay();
 
         $lastBtcPrice = (float) $coin->prices()->first()->price_btc;
         $lastUsdPrice = (float) $coin->prices()->first()->price_usd;
