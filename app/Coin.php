@@ -11,7 +11,7 @@ class Coin extends Model
 
     public function prices()
     {
-        return $this->hasMany(Price::class);
+        return $this->hasMany(Price::class)->orderBy('created_at', 'desc');
     }
 
     public function latestPrice()
