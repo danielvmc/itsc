@@ -19,7 +19,7 @@
                     <th scope="row"><a href="{{ $coin->symbol }}">{{ $coin->name }}</a></th>
                     <td class="fit text-right">{{ number_format($coin->latestPrice[0]->price_btc, 10) }}</td>
                     <td class="fit text-right">{{ number_format($coin->latestPrice[0]->price_usd, 5) }}</td>
-                    <td class="fit text-right">{{ number_format($coin->latestPrice[0]->volume) }}</td>
+                    <td class="fit text-right">${{ number_format($coin->latestPrice[0]->volume) }}</td>
                     <td class="fit text-right">{{ number_format($coin->latestPrice[0]->supply) }}</td>
                     <td class="fit">
                         @if($coin->latestPrice[0]->percent_change_btc < 0)

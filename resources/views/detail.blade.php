@@ -20,7 +20,7 @@
                     <th scope="row" class="fit">{{ $coin->created_at->diffForHumans() }}</th>
                     <td class="fit">{{ number_format($coin->price_btc, 10) }}</td>
                     <td class="fit">{{ number_format($coin->price_usd, 5) }}</td>
-                    <td class="fit">{{ number_format($coin->volume) }}</td>
+                    <td class="fit">${{ number_format($coin->volume) }}</td>
                     <td class="fit">{{ number_format($coin->supply) }}</td>
                     <td class="fit">
                         @if($coin->percent_change_btc < 0)
