@@ -33,7 +33,7 @@ class UpdateCoin implements ShouldQueue
      */
     public function handle()
     {
-        $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=2000');
+        $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=100');
 
         $coins = json_decode(json_encode($response->body));
 
@@ -44,32 +44,38 @@ class UpdateCoin implements ShouldQueue
 
             $priceUsd = $coin['price_usd'];
             $priceBtc = $coin['price_btc'];
-            $volume = $coin['24h_volume_usd'];
+            $volume = (float) $coin['24h_volume_usd'];
             $supply = $coin['available_supply'];
-            $percentChangeBtc = (float) 0;
-            $percentChangeUsd = (float) 0;
+            $marketCap = $coin['market_cap_usd'];
+            // $percentChangeVolume = (float) 0;
+            // $percentChangeBtc = (float) 0;
+            // $percentChangeUsd = (float) 0;
 
             $coin = Coin::where('symbol', '=', $symbol)->first();
 
             $startOfDay = Carbon::today();
 
-            $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
+            // $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
+            $lastVolume = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->volume;
             $lastBtcPrice = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_btc;
             $lastUsdPrice = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
+            $percentChangeVolume = getPercentageChange($lastVolume, $volume);
             $percentChangeBtc = getPercentageChange($lastBtcPrice, $priceBtc);
             $percentChangeUsd = getPercentageChange($lastUsdPrice, $priceUsd);
 
-            Price::create(
+            $price = Price::create(
                 [
                     'coin_id' => $coin->id,
                     'price_btc' => $priceBtc,
                     'price_usd' => $priceUsd,
                     'volume' => $volume,
                     'supply' => $supply,
-                    'percent_change_btc' => $percentChangeBtc,
-                    'percent_change_usd' => $percentChangeUsd,
+                    'market_cap' => $marketCap,
+                    'percent_volume' => $percentChangeVolume,
+                    'percent_btc' => $percentChangeBtc,
+                    'percent_usd' => $percentChangeUsd,
                 ]
             );
         }
