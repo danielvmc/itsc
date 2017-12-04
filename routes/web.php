@@ -28,7 +28,7 @@ Route::get('/test', function () {
 });
 
 Route::get('/instant', function () {
-    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=100');
+    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=300');
 
     $coins = json_decode(json_encode($response->body));
 
@@ -63,6 +63,8 @@ Route::get('/instant', function () {
             ]
         );
     }
+
+    return redirect('/');
 });
 
 Route::get('/', function () {
@@ -149,7 +151,7 @@ Route::get('update', function () {
     //     );
     // }
 
-    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=100');
+    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=300');
 
     $coins = json_decode(json_encode($response->body));
 
