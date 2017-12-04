@@ -33,17 +33,17 @@ class UpdateCoin implements ShouldQueue
      */
     public function handle()
     {
-        $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=100');
+        $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=200');
 
-        $coins = json_decode(json_encode($response->body));
+        $data = json_decode(json_encode($response->body));
 
-        foreach ($coins as $coin) {
+        foreach ($data as $coin) {
             $coin = (array) json_decode(json_encode($coin));
 
             $symbol = (string) $coin['id'];
 
-            $priceUsd = $coin['price_usd'];
-            $priceBtc = $coin['price_btc'];
+            $priceUsd = (float) $coin['price_usd'];
+            $priceBtc = (float) $coin['price_btc'];
             $volume = (float) $coin['24h_volume_usd'];
             $supply = $coin['available_supply'];
             $marketCap = $coin['market_cap_usd'];
@@ -51,23 +51,43 @@ class UpdateCoin implements ShouldQueue
             // $percentChangeBtc = (float) 0;
             // $percentChangeUsd = (float) 0;
 
-            $coin = Coin::where('symbol', '=', $symbol)->first();
+            $databaseCoin = Coin::where('symbol', '=', $symbol)->first();
 
-            $startOfDay = Carbon::today();
+            $firstPriceOfToday = $databaseCoin->firstPriceOfToday();
+
+            // echo ($coin->startOfDay($startOfDay)['volume']);
 
             // $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
-            $lastVolume = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->volume;
-            $lastBtcPrice = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_btc;
-            $lastUsdPrice = (float) $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
+            $lastVolume = $databaseCoin->firstPriceOfToday()->volume;
+            $lastBtcPrice = $databaseCoin->firstPriceOfToday()->price_btc;
+            $lastUsdPrice = $databaseCoin->firstPriceOfToday()->price_usd;
 
-            $percentChangeVolume = getPercentageChange($lastVolume, $volume);
-            $percentChangeBtc = getPercentageChange($lastBtcPrice, $priceBtc);
-            $percentChangeUsd = getPercentageChange($lastUsdPrice, $priceUsd);
+            // $lastVolume = (float) $datadatabaseCoin->prices()->where('created_at', '>', $startOfDay)->latest()->first()->volume;
+            // $lastBtcPrice = (float) $datadatabaseCoin->prices()->where('created_at', '>', $startOfDay)->latest()->first()->price_btc;
+            // $lastUsdPrice = (float) $datadatabaseCoin->prices()->where('created_at', '>', $startOfDay)->latest()->first()->price_usd;
+            // $lastBtcPrice = (float) $datadatabaseCoin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_btc;
+            // $lastUsdPrice = (float) $datadatabaseCoin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
+
+            $percentChangeVolume = $this->getPercentChange($lastVolume, $volume);
+            $percentChangeBtc = $this->getPercentChange($lastBtcPrice, $priceBtc);
+            $percentChangeUsd = $this->getPercentChange($lastUsdPrice, $priceUsd);
+
+            // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
+            $previousBtcPrice = (float) $databaseCoin->firstPriceOfToday()->price_btc;
+            // dd($previousBtcPrice);
+            $previousUsdPrice = (float) $databaseCoin->firstPriceOfToday()->price_usd;
+
+            $duration = Carbon::now()->diffInSeconds($databaseCoin->firstPriceOfToday()->created_at);
+
+            $btcPerSecond = ($priceBtc - $previousBtcPrice) / $duration;
+            $usdPerSecond = ($priceUsd - $previousUsdPrice) / $duration;
+
+            // dd($previousUsdPrice, $priceUsd, $usdPerSecond);
 
             $price = Price::create(
                 [
-                    'coin_id' => $coin->id,
+                    'coin_id' => $databaseCoin->id,
                     'price_btc' => $priceBtc,
                     'price_usd' => $priceUsd,
                     'volume' => $volume,
@@ -76,6 +96,8 @@ class UpdateCoin implements ShouldQueue
                     'percent_volume' => $percentChangeVolume,
                     'percent_btc' => $percentChangeBtc,
                     'percent_usd' => $percentChangeUsd,
+                    'btc_s' => $btcPerSecond,
+                    'usd_s' => $usdPerSecond,
                 ]
             );
         }
