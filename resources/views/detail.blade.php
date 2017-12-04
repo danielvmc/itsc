@@ -80,6 +80,13 @@
                     <td class="fit">{{ number_format($coin->supply) }}</td>
                     <td class="fit">{{ number_format($coin->market_cap) }}</td>
                     <td class="fit">
+                        @if($coin->percent_market < 0)
+                            <p class="text-danger text-right">{{ number_format($coin->percent_market, 10) }}</p>
+                        @else
+                            <p class="text-success text-right">{{ number_format($coin->percent_market, 10) }}</p>
+                        @endif
+                    </td>
+                    <td class="fit">
                         @if($coin->percent_volume < 0)
                             <p class="text-danger text-right">{{ number_format($coin->percent_volume, 10) }}</p>
                         @else
