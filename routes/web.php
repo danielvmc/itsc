@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Unirest\Request;
 
 Route::get('/init', function () {
-    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=150');
+    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=200');
 
     $coins = json_decode(json_encode($response->body));
 
@@ -52,7 +52,7 @@ Route::get('/init', function () {
 });
 
 Route::get('/update', function () {
-    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=150');
+    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=200');
 
     $data = json_decode(json_encode($response->body));
 
