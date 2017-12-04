@@ -11,6 +11,8 @@
                 <th class="fit">Volume</th>
                 <th class="fit">Supply</th>
                 <th class="fit">Market Cap</th>
+                <th class="fit">Market Cap
+                 (%)</th>
                 <th class="fit">Volume (%)</th>
                 <th class="fit">BTC (%)</th>
                 <th class="fit">USD (%)</th>
@@ -26,6 +28,13 @@
                 <td class="fit">${{ number_format($firstPriceOfDay->volume) }}</td>
                 <td class="fit">{{ number_format($firstPriceOfDay->supply) }}</td>
                 <td class="fit">{{ number_format($firstPriceOfDay->market_cap) }}</td>
+                <td class="fit">
+                    @if($firstPriceOfDay->percent_market < 0)
+                        <p class="text-danger text-right">{{ number_format($firstPriceOfDay->percent_market, 10) }}</p>
+                    @else
+                        <p class="text-success text-right">{{ number_format($firstPriceOfDay->percent_market, 10) }}</p>
+                    @endif
+                </td>
                 <td class="fit">
                     @if($firstPriceOfDay->percent_volume < 0)
                         <p class="text-danger text-right">{{ number_format($firstPriceOfDay->percent_volume, 10) }}</p>

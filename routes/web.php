@@ -2,6 +2,7 @@
 
 use App\Coin;
 use App\Price;
+use Carbon\Carbon;
 use Unirest\Request;
 
 Route::get('/init', function () {
@@ -20,6 +21,7 @@ Route::get('/init', function () {
         $volume = (float) $coin['24h_volume_usd'];
         $supply = $coin['available_supply'];
         $marketCap = $coin['market_cap_usd'];
+        $percentChangeMarket = 0;
         $percentChangeVolume = 0;
         $percentChangeBtc = 0;
         $percentChangeUsd = 0;
@@ -36,6 +38,7 @@ Route::get('/init', function () {
                 'volume' => $volume,
                 'supply' => $supply,
                 'market_cap' => $marketCap,
+                'percent_market' => $percentChangeMarket,
                 'percent_volume' => $percentChangeVolume,
                 'percent_btc' => $percentChangeBtc,
                 'percent_usd' => $percentChangeUsd,
@@ -75,10 +78,12 @@ Route::get('/update', function () {
 
         // $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
+        $lastMarketCap = $databaseCoin->firstPriceOfToday()->market_cap;
         $lastVolume = $databaseCoin->firstPriceOfToday()->volume;
         $lastBtcPrice = $databaseCoin->firstPriceOfToday()->price_btc;
         $lastUsdPrice = $databaseCoin->firstPriceOfToday()->price_usd;
 
+        $percentChangeMarket = getPercentChange($lastMarketCap, $marketCap);
         $percentChangeVolume = getPercentChange($lastVolume, $volume);
         $percentChangeBtc = getPercentChange($lastBtcPrice, $priceBtc);
         $percentChangeUsd = getPercentChange($lastUsdPrice, $priceUsd);
@@ -103,6 +108,7 @@ Route::get('/update', function () {
                 'volume' => $volume,
                 'supply' => $supply,
                 'market_cap' => $marketCap,
+                'percent_market' => $percentChangeMarket,
                 'percent_volume' => $percentChangeVolume,
                 'percent_btc' => $percentChangeBtc,
                 'percent_usd' => $percentChangeUsd,
@@ -125,5 +131,4 @@ function getPercentChange($oldNumber, $newNumber)
 }
 
 Route::get('/', 'CoinsController@index');
-Route::get('/update', 'CoinsController@update');
 Route::get('/{symbol}', 'CoinsController@show');

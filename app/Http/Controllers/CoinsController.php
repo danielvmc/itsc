@@ -93,6 +93,7 @@ class CoinsController extends Controller
                     'volume' => $volume,
                     'supply' => $supply,
                     'market_cap' => $marketCap,
+                    'percent_market' => $percentChangeMarket,
                     'percent_volume' => $percentChangeVolume,
                     'percent_btc' => $percentChangeBtc,
                     'percent_usd' => $percentChangeUsd,

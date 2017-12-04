@@ -21,6 +21,7 @@ class CreatePricesTable extends Migration
             $table->decimal('volume', 30, 20)->nullable();
             $table->bigInteger('supply')->nullable();
             $table->bigInteger('market_cap')->nullable();
+            $table->decimal('percent_market', 30, 20);
             $table->decimal('percent_volume', 30, 20);
             $table->decimal('percent_btc', 30, 20);
             $table->decimal('percent_usd', 30, 20);
