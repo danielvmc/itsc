@@ -53,7 +53,7 @@
         $(document).ready(function() {
             var oTable = $('#shortable').dataTable({
                 "paging": false,
-                "order": [[5, "desc"]],
+                "order": [[3, "desc"]],
             });
         });
     </script>
