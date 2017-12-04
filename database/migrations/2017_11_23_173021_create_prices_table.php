@@ -24,6 +24,8 @@ class CreatePricesTable extends Migration
             $table->decimal('percent_volume', 30, 20);
             $table->decimal('percent_btc', 30, 20);
             $table->decimal('percent_usd', 30, 20);
+            $table->decimal('btc_s', 30, 20);
+            $table->decimal('usd_s', 30, 20);
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Price;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Coin extends Model
@@ -11,16 +12,21 @@ class Coin extends Model
 
     public function prices()
     {
-        return $this->hasMany(Price::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Price::class);
     }
 
-    public function latestPrice()
+    public function latestFirst()
     {
-        return $this->prices()->latest();
+        return $this->prices()->orderBy('created_at', 'desc');
     }
 
-    public function firstPrice()
+    public function firstPriceOfToday()
     {
-        return $this->prices()->orderBy('created_at', 'asc');
+        return $this->prices()->where('created_at', '>', Carbon::today())->get()->first();
+    }
+
+    public function startOfDay($startOfDay)
+    {
+        return $this->prices()->startOfDay();
     }
 }

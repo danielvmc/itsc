@@ -9,6 +9,7 @@
     <style rel="stylesheet">
         body {
             padding-top: 20px;
+            margin-left: -500px;
         }
 
         .table {
