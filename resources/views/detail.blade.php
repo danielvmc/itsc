@@ -17,6 +17,35 @@
             </tr>
         </thead>
         <tbody>
+            <tr class="bg-success">
+                <th scope="row" class="fit">Begin of today</th>
+                <td class="fit">{{ number_format($firstPriceOfDay->price_btc, 10) }}</td>
+                <td class="fit">{{ number_format($firstPriceOfDay->price_usd, 5) }}</td>
+                <td class="fit">${{ number_format($firstPriceOfDay->volume) }}</td>
+                <td class="fit">{{ number_format($firstPriceOfDay->supply) }}</td>
+                <td class="fit">{{ number_format($firstPriceOfDay->market_cap) }}</td>
+                <td class="fit">
+                    @if($firstPriceOfDay->percent_volume < 0)
+                        <p class="text-danger text-right">{{ number_format($firstPriceOfDay->percent_volume, 10) }}</p>
+                    @else
+                        <p class="text-success text-right">{{ number_format($firstPriceOfDay->percent_volume, 10) }}</p>
+                    @endif
+                </td>
+                <td class="fit">
+                    @if($firstPriceOfDay->percent_btc < 0)
+                        <p class="text-danger text-right">{{ number_format($firstPriceOfDay->percent_btc, 10) }}</p>
+                    @else
+                        <p class="text-success text-right">{{ number_format($firstPriceOfDay->percent_btc, 10) }}</p>
+                    @endif
+                </td>
+                <td class="fit">
+                    @if($firstPriceOfDay->percent_usd < 0)
+                        <p class="text-danger text-right">{{ number_format($firstPriceOfDay->percent_usd, 10) }}</p>
+                    @else
+                        <p class="text-success text-right">{{ number_format($firstPriceOfDay->percent_usd, 10) }}</p>
+                    @endif
+                </td>
+            </tr>
             @foreach($coinPrices as $coin)
                 <tr>
                     <th scope="row" class="fit">{{ $coin->created_at->diffForHumans() }}</th>

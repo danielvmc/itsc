@@ -200,8 +200,12 @@ Route::get('update', function () {
 });
 
 Route::get('/{symbol}', function ($symbol) {
+    $startOfDay = Carbon::today();
     $coin = Coin::where('symbol', '=', $symbol)->first();
+
+    $firstPriceOfDay = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last();
+
     $coinPrices = $coin->prices()->get();
 
-    return view('detail', compact('coinPrices'));
+    return view('detail', compact('coinPrices', 'firstPriceOfDay'));
 });
