@@ -18,10 +18,12 @@ class CreatePricesTable extends Migration
             $table->integer('coin_id')->unsigned();
             $table->decimal('price_btc', 30, 20)->nullable();
             $table->decimal('price_usd', 30, 20)->nullable();
-            $table->bigInteger('volume')->nullable();
+            $table->decimal('volume', 30, 20)->nullable();
             $table->bigInteger('supply')->nullable();
-            $table->decimal('percent_change_btc', 30, 20)->nullable();
-            $table->decimal('percent_change_usd', 30, 20)->nullable();
+            $table->bigInteger('market_cap')->nullable();
+            $table->decimal('percent_volume', 30, 20);
+            $table->decimal('percent_btc', 30, 20);
+            $table->decimal('percent_usd', 30, 20);
             $table->timestamps();
         });
     }

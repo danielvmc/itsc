@@ -10,6 +10,8 @@
                 <th class="fit">Price USD</th>
                 <th class="fit">Volume</th>
                 <th class="fit">Supply</th>
+                <th class="fit">Market Cap</th>
+                <th class="fit">Change Volume (%)</th>
                 <th class="fit">Change BTC (%)</th>
                 <th class="fit">Change USD (%)</th>
             </tr>
@@ -22,18 +24,26 @@
                     <td class="fit">{{ number_format($coin->price_usd, 5) }}</td>
                     <td class="fit">${{ number_format($coin->volume) }}</td>
                     <td class="fit">{{ number_format($coin->supply) }}</td>
+                    <td class="fit">{{ number_format($coin->market_cap) }}</td>
                     <td class="fit">
-                        @if($coin->percent_change_btc < 0)
-                            <p class="text-danger text-right">{{ number_format($coin->percent_change_btc, 10) }}</p>
+                        @if($coin->percent_volume < 0)
+                            <p class="text-danger text-right">{{ number_format($coin->percent_volume, 10) }}</p>
                         @else
-                            <p class="text-success text-right">{{ number_format($coin->percent_change_btc, 10) }}</p>
+                            <p class="text-success text-right">{{ number_format($coin->percent_volume, 10) }}</p>
                         @endif
                     </td>
                     <td class="fit">
-                        @if($coin->percent_change_usd < 0)
-                            <p class="text-danger text-right">{{ number_format($coin->percent_change_usd, 10) }}</p>
+                        @if($coin->percent_btc < 0)
+                            <p class="text-danger text-right">{{ number_format($coin->percent_btc, 10) }}</p>
                         @else
-                            <p class="text-success text-right">{{ number_format($coin->percent_change_usd, 10) }}</p>
+                            <p class="text-success text-right">{{ number_format($coin->percent_btc, 10) }}</p>
+                        @endif
+                    </td>
+                    <td class="fit">
+                        @if($coin->percent_usd < 0)
+                            <p class="text-danger text-right">{{ number_format($coin->percent_usd, 10) }}</p>
+                        @else
+                            <p class="text-success text-right">{{ number_format($coin->percent_usd, 10) }}</p>
                         @endif
                     </td>
                 </tr>
