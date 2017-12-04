@@ -103,7 +103,7 @@ class UpdateCoin implements ShouldQueue
         }
     }
 
-    private function getPercentChange($oldNumber, $newNumber)
+    public function getPercentChange($oldNumber, $newNumber)
     {
         if ($oldNumber == 0) {
             return (float) 0;
