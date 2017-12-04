@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Unirest\Request;
 
 Route::get('/init', function () {
-    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=200');
+    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=150');
 
     $coins = json_decode(json_encode($response->body));
 
@@ -52,7 +52,7 @@ Route::get('/init', function () {
 });
 
 Route::get('/update', function () {
-    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=200');
+    $response = Request::get('https://api.coinmarketcap.com/v1/ticker/?limit=150');
 
     $data = json_decode(json_encode($response->body));
 
@@ -70,7 +70,18 @@ Route::get('/update', function () {
         // $percentChangeBtc = (float) 0;
         // $percentChangeUsd = (float) 0;
 
-        $databaseCoin = Coin::where('symbol', '=', $symbol)->first();
+        $databaseCoin = Coin::with('pricesOfToday')->where('symbol', '=', $symbol)->first();
+
+        if (!$databaseCoin) {
+        }
+
+        $firstOfToday = $databaseCoin->pricesOfToday->first();
+
+        // dd($firstOfToday);
+        $latestOfToday = $databaseCoin->pricesOfToday->last();
+
+        // $firstOfToday = $databaseCoin['pricesOfToday'];
+        // $latestOfToday = $databaseCoin->pricesOfToday->last();
 
         // $firstPriceOfToday = $databaseCoin->firstPriceOfToday();
 
@@ -78,22 +89,26 @@ Route::get('/update', function () {
 
         // $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
-        $lastMarketCap = $databaseCoin->firstPriceOfToday()->market_cap;
-        $lastVolume = $databaseCoin->firstPriceOfToday()->volume;
-        $lastBtcPrice = $databaseCoin->firstPriceOfToday()->price_btc;
-        $lastUsdPrice = $databaseCoin->firstPriceOfToday()->price_usd;
+        // dd($databaseCoin->prices);
 
-        $percentChangeMarket = getPercentChange($lastMarketCap, $marketCap);
-        $percentChangeVolume = getPercentChange($lastVolume, $volume);
-        $percentChangeBtc = getPercentChange($lastBtcPrice, $priceBtc);
-        $percentChangeUsd = getPercentChange($lastUsdPrice, $priceUsd);
+        // dd($firstOfToday->market_cap, $latestOfToday->market_cap);
+
+        $firstMarketCap = $firstOfToday->market_cap;
+        $firstVolume = $firstOfToday->volume;
+        $firstBtcPrice = $firstOfToday->price_btc;
+        $firstUsdPrice = $firstOfToday->price_usd;
+
+        $percentChangeMarket = getPercentChange($firstMarketCap, $marketCap);
+        $percentChangeVolume = getPercentChange($firstVolume, $volume);
+        $percentChangeBtc = getPercentChange($firstBtcPrice, $priceBtc);
+        $percentChangeUsd = getPercentChange($firstUsdPrice, $priceUsd);
 
         // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
-        $previousBtcPrice = (float) $databaseCoin->latestPriceOfToday()->price_btc;
+        $previousBtcPrice = (float) $latestOfToday->price_btc;
         // dd($previousBtcPrice);
-        $previousUsdPrice = (float) $databaseCoin->latestPriceOfToday()->price_usd;
+        $previousUsdPrice = (float) $latestOfToday->price_usd;
 
-        $duration = Carbon::now()->diffInSeconds($databaseCoin->latestPriceOfToday()->created_at);
+        $duration = Carbon::now()->diffInSeconds($latestOfToday->created_at);
 
         $btcPerSecond = ($priceBtc - $previousBtcPrice) / $duration;
         $usdPerSecond = ($priceUsd - $previousUsdPrice) / $duration;
@@ -102,23 +117,44 @@ Route::get('/update', function () {
 
         // dd($previousUsdPrice, $priceUsd, $usdPerSecond);
 
-        $price = Price::create(
-            [
-                'coin_id' => $databaseCoin->id,
-                'price_btc' => $priceBtc,
-                'price_usd' => $priceUsd,
-                'volume' => $volume,
-                'supply' => $supply,
-                'market_cap' => $marketCap,
-                'percent_market' => $percentChangeMarket,
-                'percent_volume' => $percentChangeVolume,
-                'percent_btc' => $percentChangeBtc,
-                'percent_usd' => $percentChangeUsd,
-                'btc_s' => $btcPerSecond,
-                'usd_s' => $usdPerSecond,
-            ]
-        );
+        if (is_null($databaseCoin)) {
+            $price = Price::create(
+                [
+                    'coin_id' => $databaseCoin->id,
+                    'price_btc' => $priceBtc,
+                    'price_usd' => $priceUsd,
+                    'volume' => $volume,
+                    'supply' => $supply,
+                    'market_cap' => $marketCap,
+                    'percent_market' => 0,
+                    'percent_volume' => 0,
+                    'percent_btc' => 0,
+                    'percent_usd' => 0,
+                    'btc_s' => 0,
+                    'usd_s' => 0,
+                ]
+            );
+        } else {
+            $price = Price::create(
+                [
+                    'coin_id' => $databaseCoin->id,
+                    'price_btc' => $priceBtc,
+                    'price_usd' => $priceUsd,
+                    'volume' => $volume,
+                    'supply' => $supply,
+                    'market_cap' => $marketCap,
+                    'percent_market' => $percentChangeMarket,
+                    'percent_volume' => $percentChangeVolume,
+                    'percent_btc' => $percentChangeBtc,
+                    'percent_usd' => $percentChangeUsd,
+                    'btc_s' => $btcPerSecond,
+                    'usd_s' => $usdPerSecond,
+                ]
+            );
+        }
     }
+
+    return back();
 });
 
 function getPercentChange($oldNumber, $newNumber)

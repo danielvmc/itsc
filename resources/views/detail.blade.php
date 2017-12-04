@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <a class="text-left custom-text" href="/">Back</a><br>
+    <a class="text-left custom-text" href="/">Back</a><div class="help-block"></div><a class="custom-text" href="/update">Update</a><br>
     <table id="shortable" class="table table-bordered" cellspacing="0" width="100%"
         <thead>
             <tr>

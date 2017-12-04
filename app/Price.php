@@ -20,6 +20,11 @@ class Price extends Model
         return $this->where('created_at', '>', Carbon::today())->orderBy('created_at', 'asc')->latest()->last();
     }
 
+    public function scopeToday($query)
+    {
+        return $query->where('created_at', '>', Carbon::today());
+    }
+
     public function startOfDay($startOfDay)
     {
         return $this->where('created_at', '>', Carbon::today())->get()->first();

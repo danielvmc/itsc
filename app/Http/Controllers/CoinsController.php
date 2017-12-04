@@ -24,7 +24,7 @@ class CoinsController extends Controller
     {
         $coin = Coin::where('symbol', '=', $symbol)->first();
 
-        $firstPriceOfDay = $coin->firstPriceOfToday();
+        $firstPriceOfDay = $coin->latestPriceOfToday()->first();
 
         $coinPrices = $coin->latestFirst()->get();
 
@@ -93,7 +93,7 @@ class CoinsController extends Controller
                     'volume' => $volume,
                     'supply' => $supply,
                     'market_cap' => $marketCap,
-                    'percent_market' => $percentChangeMarket,
+                    'percent_market' => $percentChange,
                     'percent_volume' => $percentChangeVolume,
                     'percent_btc' => $percentChangeBtc,
                     'percent_usd' => $percentChangeUsd,

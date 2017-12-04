@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+    <a class="text-left custom-text" href="/update">Update</a><br>
     <table id="shortable" class="table table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr>
