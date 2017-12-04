@@ -70,9 +70,9 @@ class UpdateCoin implements ShouldQueue
             // $lastBtcPrice = (float) $datadatabaseCoin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_btc;
             // $lastUsdPrice = (float) $datadatabaseCoin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
-            $percentChangeVolume = $Services::getPercentChange($lastVolume, $volume);
-            $percentChangeBtc = $Services::getPercentChange($lastBtcPrice, $priceBtc);
-            $percentChangeUsd = $Services::getPercentChange($lastUsdPrice, $priceUsd);
+            $percentChangeVolume = Services::getPercentChange($lastVolume, $volume);
+            $percentChangeBtc = Services::getPercentChange($lastBtcPrice, $priceBtc);
+            $percentChangeUsd = Services::getPercentChange($lastUsdPrice, $priceUsd);
 
             // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
             $previousBtcPrice = (float) $databaseCoin->firstPriceOfToday()->price_btc;
