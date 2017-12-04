@@ -24,4 +24,9 @@ class Price extends Model
     {
         return $this->where('created_at', '>', Carbon::today())->get()->first();
     }
+
+    public function latestPriceOfToday()
+    {
+        return $this->where('created_at', '>', Carbon::today())->orderBy('created_at', 'asc')->latest()->first();
+    }
 }

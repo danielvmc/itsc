@@ -89,14 +89,16 @@ Route::get('/update', function () {
         $percentChangeUsd = getPercentChange($lastUsdPrice, $priceUsd);
 
         // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
-        $previousBtcPrice = (float) $databaseCoin->firstPriceOfToday()->price_btc;
+        $previousBtcPrice = (float) $databaseCoin->latestPriceOfToday()->price_btc;
         // dd($previousBtcPrice);
-        $previousUsdPrice = (float) $databaseCoin->firstPriceOfToday()->price_usd;
+        $previousUsdPrice = (float) $databaseCoin->latestPriceOfToday()->price_usd;
 
-        $duration = Carbon::now()->diffInSeconds($databaseCoin->firstPriceOfToday()->created_at);
+        $duration = Carbon::now()->diffInSeconds($databaseCoin->latestPriceOfToday()->created_at);
 
         $btcPerSecond = ($priceBtc - $previousBtcPrice) / $duration;
         $usdPerSecond = ($priceUsd - $previousUsdPrice) / $duration;
+
+        // dd($previousBtcPrice, $priceBtc, $duration);
 
         // dd($previousUsdPrice, $priceUsd, $usdPerSecond);
 

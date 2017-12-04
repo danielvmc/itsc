@@ -25,6 +25,11 @@ class Coin extends Model
         return $this->prices()->where('created_at', '>', Carbon::today())->get()->first();
     }
 
+    public function latestPriceOfToday()
+    {
+        return $this->prices()->where('created_at', '>', Carbon::today())->get()->last();
+    }
+
     public function startOfDay($startOfDay)
     {
         return $this->prices()->startOfDay();
