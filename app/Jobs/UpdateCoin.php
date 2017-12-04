@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Helpers\Services;
 
 class UpdateCoin implements ShouldQueue
 {
@@ -69,9 +70,9 @@ class UpdateCoin implements ShouldQueue
             // $lastBtcPrice = (float) $datadatabaseCoin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_btc;
             // $lastUsdPrice = (float) $datadatabaseCoin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
-            $percentChangeVolume = $this->getPercentChange($lastVolume, $volume);
-            $percentChangeBtc = $this->getPercentChange($lastBtcPrice, $priceBtc);
-            $percentChangeUsd = $this->getPercentChange($lastUsdPrice, $priceUsd);
+            $percentChangeVolume = $Services::getPercentChange($lastVolume, $volume);
+            $percentChangeBtc = $Services::getPercentChange($lastBtcPrice, $priceBtc);
+            $percentChangeUsd = $Services::getPercentChange($lastUsdPrice, $priceUsd);
 
             // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
             $previousBtcPrice = (float) $databaseCoin->firstPriceOfToday()->price_btc;
