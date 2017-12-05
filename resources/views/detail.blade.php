@@ -2,7 +2,7 @@
 
 @section('content')
     <a class="text-left custom-text" href="/">Back</a><div class="help-block"></div><a class="custom-text" href="/update">Update</a><br>
-    In last {{ $duration }}(s)
+    In the last {{ $duration }}(s)
     @if($percentBtc < 0)
         <p>BTC price decreased<span class="text-danger"> {{ $percentBtc }}(%) </span></p>
     @else
