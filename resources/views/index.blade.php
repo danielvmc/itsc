@@ -17,6 +17,7 @@
                 <th class="fit">USD (%)</th>
                 <th class="fit">BTC/s</th>
                 <th class="fit">USD/s</th>
+                <th class="fit">Speed</th>
 
             </tr>
         </thead>
@@ -71,7 +72,13 @@
                             <p class="text-success text-right">{{ number_format($coin->latestFirst[0]['usd_s'], 10) }}</p>
                         @endif
                     </td>
-
+                    <td class="fit">
+                        @if($coin->latestFirst[0]['speed'] < 0)
+                            <p class="text-danger text-right">{{ number_format($coin->latestFirst[0]['speed'], 10) }}</p>
+                        @else
+                            <p class="text-success text-right">{{ number_format($coin->latestFirst[0]['speed'], 10) }}</p>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>

@@ -14,14 +14,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdNine }}(%) </span></p>
     @endif
     @if($percentVolumeNine < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeNine }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeNine }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeNine }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeNine }}(%) </span></p>
     @endif
     @if($percentMarketCapNine < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapNine }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapNine }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapNine }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapNine }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationEight }}(s) period
@@ -36,14 +36,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdEight }}(%) </span></p>
     @endif
     @if($percentVolumeEight < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeEight }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeEight }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeEight }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeEight }}(%) </span></p>
     @endif
     @if($percentMarketCapEight < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapEight }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapEight }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapEight }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapEight }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationSeven }}(s) period
@@ -58,14 +58,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdSeven }}(%) </span></p>
     @endif
     @if($percentVolumeSeven < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeSeven }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeSeven }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeSeven }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeSeven }}(%) </span></p>
     @endif
     @if($percentMarketCapSeven < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapSeven }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapSeven }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapSeven }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapSeven }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationSix }}(s) period
@@ -80,14 +80,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdSix }}(%) </span></p>
     @endif
     @if($percentVolumeSix < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeSix }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeSix }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeSix}}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeSix}}(%) </span></p>
     @endif
     @if($percentMarketCapSix < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapSix }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapSix }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapSix }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapSix }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationFive }}(s) period
@@ -102,14 +102,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdFive }}(%) </span></p>
     @endif
     @if($percentVolumeFive < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeFive }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeFive }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeFive }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeFive }}(%) </span></p>
     @endif
     @if($percentMarketCapFive < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapFive }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapFive }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapFive }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapFive }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationFour }}(s) period
@@ -124,14 +124,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdFour }}(%) </span></p>
     @endif
     @if($percentVolumeFour < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeFour }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeFour }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeFour }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeFour }}(%) </span></p>
     @endif
     @if($percentMarketCapFour < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapFour }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapFour }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapFour }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapFour }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationThree }}(s) period
@@ -146,14 +146,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdThree }}(%) </span></p>
     @endif
     @if($percentVolumeThree < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeThree }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeThree }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeThree }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeThree }}(%) </span></p>
     @endif
     @if($percentMarketCapThree < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapThree }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapThree }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapThree }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapThree }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationTwo }}(s) period
@@ -168,14 +168,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdTwo }}(%) </span></p>
     @endif
     @if($percentVolumeTwo < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeTwo }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeTwo }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeTwo }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeTwo }}(%) </span></p>
     @endif
     @if($percentMarketCapTwo < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapTwo }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapTwo }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapTwo }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapTwo }}(%) </span></p>
     @endif
     -----------
     In the last {{ $durationOne }}(s) period
@@ -190,14 +190,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsdOne }}(%) </span></p>
     @endif
     @if($percentVolumeOne < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolumeOne }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolumeOne }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolumeOne }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolumeOne }}(%) </span></p>
     @endif
     @if($percentMarketCapOne < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCapOne }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCapOne }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCapOne }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCapOne }}(%) </span></p>
     @endif
     -----------
 @endsection

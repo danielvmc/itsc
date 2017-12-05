@@ -27,6 +27,7 @@ Route::get('/init', function () {
         $percentChangeUsd = 0;
         $btcPerSecond = 0;
         $usdPerSecond = 0;
+        $speed = 0;
 
         $coin = Coin::create(['name' => $name, 'symbol' => $symbol]);
 
@@ -44,6 +45,7 @@ Route::get('/init', function () {
                 'percent_usd' => $percentChangeUsd,
                 'btc_s' => $btcPerSecond,
                 'usd_s' => $usdPerSecond,
+                'speed' => $speed,
             ]
         );
     }
@@ -83,12 +85,13 @@ Route::get('/update', function () {
                     'volume' => $volume,
                     'supply' => $supply,
                     'market_cap' => $marketCap,
-                    'percent_market' => $percentChangeMarket,
-                    'percent_volume' => $percentChangeVolume,
-                    'percent_btc' => $percentChangeBtc,
-                    'percent_usd' => $percentChangeUsd,
-                    'btc_s' => $btcPerSecond,
-                    'usd_s' => $usdPerSecond,
+                    'percent_market' => 0,
+                    'percent_volume' => 0,
+                    'percent_btc' => 0,
+                    'percent_usd' => 0,
+                    'btc_s' => 0,
+                    'usd_s' => 0,
+                    'speed' => 0,
                 ]
             );
         } else {
@@ -125,10 +128,14 @@ Route::get('/update', function () {
             // dd($previousBtcPrice);
             $previousUsdPrice = (float) $latestOfToday->price_usd;
 
+            $previousVolume = (float) $latestOfToday->volume;
+
             $duration = Carbon::now()->diffInSeconds($latestOfToday->created_at);
 
             $btcPerSecond = ($priceBtc - $previousBtcPrice) / $duration;
             $usdPerSecond = ($priceUsd - $previousUsdPrice) / $duration;
+
+            $speed = getSpeed($priceUsd, $previousUsdPrice, $volume, $previousVolume);
 
             // dd($previousBtcPrice, $priceBtc, $duration);
 
@@ -148,6 +155,7 @@ Route::get('/update', function () {
                     'percent_usd' => $percentChangeUsd,
                     'btc_s' => $btcPerSecond,
                     'usd_s' => $usdPerSecond,
+                    'speed' => $speed,
                 ]
             );
         }
@@ -164,6 +172,15 @@ function getPercentChange($oldNumber, $newNumber)
         $changeValue = $newNumber - $oldNumber;
 
         return (float) ($changeValue / $oldNumber) * 100;
+    }
+}
+
+function getSpeed($price, $previousPrice, $volume, $previousVolume)
+{
+    if ($volume - $previousVolume == 0) {
+        return (float) 0;
+    } else {
+        return ($price - $previousPrice) / ($volume - $previousVolume) * 1000000;
     }
 }
 

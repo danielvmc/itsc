@@ -14,14 +14,14 @@
         <p>USD price increased<span class="text-success"> {{ $percentUsd }}(%) </span></p>
     @endif
     @if($percentVolume < 0)
-        <p>Volume price decreased<span class="text-danger"> {{ $percentVolume }}(%) </span></p>
+        <p>Volume decreased<span class="text-danger"> {{ $percentVolume }}(%) </span></p>
     @else
-        <p>Volume price increased<span class="text-success"> {{ $percentVolume }}(%) </span></p>
+        <p>Volume increased<span class="text-success"> {{ $percentVolume }}(%) </span></p>
     @endif
     @if($percentMarketCap < 0)
-        <p>Market Cap price decreased<span class="text-danger"> {{ $percentMarketCap }}(%) </span></p>
+        <p>Market Cap decreased<span class="text-danger"> {{ $percentMarketCap }}(%) </span></p>
     @else
-        <p>Market Cap price increased<span class="text-success"> {{ $percentMarketCap }}(%) </span></p>
+        <p>Market Cap increased<span class="text-success"> {{ $percentMarketCap }}(%) </span></p>
     @endif
     <table id="shortable" class="table table-bordered" cellspacing="0" width="100%"
         <thead>
@@ -39,6 +39,7 @@
                 <th class="fit">USD (%)</th>
                 <th class="fit">BTC/s</th>
                 <th class="fit">USD/s</th>
+                <th class="fit">Speed</th>
             </tr>
         </thead>
         <tbody>
@@ -91,6 +92,13 @@
                         <p class="text-success text-right">{{ number_format($firstPriceOfToday->percent_usd, 10) }}</p>
                     @endif
                 </td>
+                <td class="fit">
+                    @if($firstPriceOfToday->speed < 0)
+                        <p class="text-danger text-right">{{ number_format($firstPriceOfToday->speed, 10) }}</p>
+                    @else
+                        <p class="text-success text-right">{{ number_format($firstPriceOfToday->speed, 10) }}</p>
+                    @endif
+                </td>
             </tr>
             @foreach($coinPrices as $coin)
                 <tr>
@@ -140,6 +148,13 @@
                             <p class="text-danger text-right">{{ number_format($coin->usd_s, 10) }}</p>
                         @else
                             <p class="text-success text-right">{{ number_format($coin->usd_s, 10) }}</p>
+                        @endif
+                    </td>
+                    <td class="fit">
+                        @if($coin->speed < 0)
+                            <p class="text-danger text-right">{{ number_format($coin->speed, 10) }}</p>
+                        @else
+                            <p class="text-success text-right">{{ number_format($coin->speed, 10) }}</p>
                         @endif
                     </td>
                 </tr>
