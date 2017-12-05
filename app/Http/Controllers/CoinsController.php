@@ -24,11 +24,38 @@ class CoinsController extends Controller
     {
         $coin = Coin::where('symbol', '=', $symbol)->first();
 
-        $firstPriceOfDay = $coin->latestPriceOfToday()->first();
+        $firstPriceOfToday = $coin->pricesOfToday->first();
+
+        $twoLatest = $coin->pricesOfToday->reverse()->take(2)->reverse();
+
+        $before = $twoLatest->first();
+        $after = $twoLatest->last();
+
+        $beforeBtcPrice = (float) $before->price_btc;
+        $beforeUsdPrice = (float) $before->price_usd;
+        $beforeVolume = (float) $before->volume;
+        $beforeMarketCap = (float) $before->market_cap;
+
+        $afterBtcPrice = (float) $after->price_btc;
+        $afterUsdPrice = (float) $after->price_usd;
+        $afterVolume = (float) $after->volume;
+        $afterMarketCap = (float) $after->market_cap;
+
+        $changeBtcPrice = $afterBtcPrice - $beforeBtcPrice;
+        $changeUsdPrice = $afterUsdPrice - $beforeUsdPrice;
+        $changeVolume = $afterVolume - $beforeVolume;
+        $changeMarketCap = $afterMarketCap - $beforeMarketCap;
+
+        $duration = $after->created_at->diffInSeconds($before->created_at);
+
+        $percentBtc = $this->getPercentChange($beforeBtcPrice, $afterBtcPrice);
+        $percentUsd = $this->getPercentChange($beforeUsdPrice, $afterUsdPrice);
+        $percentVolume = $this->getPercentChange($beforeVolume, $afterVolume);
+        $percentMarketCap = $this->getPercentChange($beforeMarketCap, $afterMarketCap);
 
         $coinPrices = $coin->latestFirst()->get();
 
-        return view('detail', compact('coinPrices', 'firstPriceOfDay'));
+        return view('detail', compact('coinPrices', 'firstPriceOfToday', 'duration', 'percentBtc', 'percentUsd', 'percentVolume', 'percentMarketCap'));
     }
 
     public function update()
