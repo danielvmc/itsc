@@ -179,8 +179,14 @@ function getSpeed($price, $previousPrice, $volume, $previousVolume)
 {
     if ($volume - $previousVolume == 0) {
         return (float) 0;
+    } elseif ($price > $previousPrice && $volume > $previousVolume) {
+        return abs(($price - $previousPrice) / ($volume - $previousVolume)) * 100000;
+    } elseif ($price < $previousPrice && $volume < $previousVolume) {
+        return -abs(($price - $previousPrice) / ($volume - $previousVolume)) * 100000;
+    } elseif ($price < $previousPrice || $volume > $previousVolume) {
+        return -abs(($price - $previousPrice) / ($volume - $previousVolume)) * 100000;
     } else {
-        return abs($price - $previousPrice) / abs($volume - $previousVolume) * 100000;
+        return -abs(($price - $previousPrice) / ($volume - $previousVolume)) * 100000;
     }
 }
 
