@@ -169,3 +169,4 @@ function getPercentChange($oldNumber, $newNumber)
 
 Route::get('/', 'CoinsController@index');
 Route::get('/{symbol}', 'CoinsController@show');
+Route::get('/{symbol}/detail', 'CoinsController@detail');
