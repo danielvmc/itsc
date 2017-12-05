@@ -180,7 +180,7 @@ function getSpeed($price, $previousPrice, $volume, $previousVolume)
     if ($volume - $previousVolume == 0) {
         return (float) 0;
     } else {
-        return ($price - $previousPrice) / ($volume - $previousVolume) * 1000000;
+        return abs($price - $previousPrice) / abs($volume - $previousVolume) * 100000;
     }
 }
 
