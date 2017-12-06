@@ -119,8 +119,6 @@ Route::get('/update', function () {
                 // dd($firstOfToday);
                 $latestOfToday = $databaseCoin->pricesOfToday->last();
 
-                dd($firstOfToday, $latestOfToday);
-
                 // $firstOfToday = $databaseCoin['pricesOfToday'];
                 // $latestOfToday = $databaseCoin->pricesOfToday->last();
 
