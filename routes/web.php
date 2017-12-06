@@ -60,9 +60,9 @@ Route::get('/update', function () {
 
     foreach ($data as $coin) {
         $coin = (array) json_decode(json_encode($coin));
+
         $name = (string) $coin['name'];
         $symbol = (string) $coin['id'];
-
         $priceUsd = (float) $coin['price_usd'];
         $priceBtc = (float) $coin['price_btc'];
         $volume = (float) $coin['24h_volume_usd'];
@@ -95,69 +95,91 @@ Route::get('/update', function () {
                 ]
             );
         } else {
-            $firstOfToday = $databaseCoin->pricesOfToday->first();
+            if ($databaseCoin->pricesOfToday->isEmpty()) {
+                $price = Price::create(
+                    [
+                        'coin_id' => $databaseCoin->id,
+                        'price_btc' => $priceBtc,
+                        'price_usd' => $priceUsd,
+                        'volume' => $volume,
+                        'supply' => $supply,
+                        'market_cap' => $marketCap,
+                        'percent_market' => 0,
+                        'percent_volume' => 0,
+                        'percent_btc' => 0,
+                        'percent_usd' => 0,
+                        'btc_s' => 0,
+                        'usd_s' => 0,
+                        'speed' => 0,
+                    ]
+                );
+            } else {
+                $firstOfToday = $databaseCoin->pricesOfToday->first();
 
-            // dd($firstOfToday);
-            $latestOfToday = $databaseCoin->pricesOfToday->last();
+                // dd($firstOfToday);
+                $latestOfToday = $databaseCoin->pricesOfToday->last();
 
-            // $firstOfToday = $databaseCoin['pricesOfToday'];
-            // $latestOfToday = $databaseCoin->pricesOfToday->last();
+                dd($firstOfToday, $latestOfToday);
 
-            // $firstPriceOfToday = $databaseCoin->firstPriceOfToday();
+                // $firstOfToday = $databaseCoin['pricesOfToday'];
+                // $latestOfToday = $databaseCoin->pricesOfToday->last();
 
-            // echo ($coin->startOfDay($startOfDay)['volume']);
+                // $firstPriceOfToday = $databaseCoin->firstPriceOfToday();
 
-            // $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
+                // echo ($coin->startOfDay($startOfDay)['volume']);
 
-            // dd($databaseCoin->prices);
+                // $wantedCoin = $coin->firstPrice()->where('created_at', '>', $startOfDay)->get()->last()->price_usd;
 
-            // dd($firstOfToday->market_cap, $latestOfToday->market_cap);
+                // dd($databaseCoin->prices);
 
-            $firstMarketCap = $firstOfToday->market_cap;
-            $firstVolume = $firstOfToday->volume;
-            $firstBtcPrice = $firstOfToday->price_btc;
-            $firstUsdPrice = $firstOfToday->price_usd;
+                // dd($firstOfToday->market_cap, $latestOfToday->market_cap);
 
-            $percentChangeMarket = getPercentChange($firstMarketCap, $marketCap);
-            $percentChangeVolume = getPercentChange($firstVolume, $volume);
-            $percentChangeBtc = getPercentChange($firstBtcPrice, $priceBtc);
-            $percentChangeUsd = getPercentChange($firstUsdPrice, $priceUsd);
+                $firstMarketCap = $firstOfToday->market_cap;
+                $firstVolume = $firstOfToday->volume;
+                $firstBtcPrice = $firstOfToday->price_btc;
+                $firstUsdPrice = $firstOfToday->price_usd;
 
-            // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
-            $previousBtcPrice = (float) $latestOfToday->price_btc;
-            // dd($previousBtcPrice);
-            $previousUsdPrice = (float) $latestOfToday->price_usd;
+                $percentChangeMarket = getPercentChange($firstMarketCap, $marketCap);
+                $percentChangeVolume = getPercentChange($firstVolume, $volume);
+                $percentChangeBtc = getPercentChange($firstBtcPrice, $priceBtc);
+                $percentChangeUsd = getPercentChange($firstUsdPrice, $priceUsd);
 
-            $previousVolume = (float) $latestOfToday->volume;
+                // $previousBtcPrice = (float) $datadatabaseCoin->prices()->latest()->first()->priceBtc;
+                $previousBtcPrice = (float) $latestOfToday->price_btc;
+                // dd($previousBtcPrice);
+                $previousUsdPrice = (float) $latestOfToday->price_usd;
 
-            $duration = Carbon::now()->diffInSeconds($latestOfToday->created_at);
+                $previousVolume = (float) $latestOfToday->volume;
 
-            $btcPerSecond = ($priceBtc - $previousBtcPrice) / $duration;
-            $usdPerSecond = ($priceUsd - $previousUsdPrice) / $duration;
+                $duration = Carbon::now()->diffInSeconds($latestOfToday->created_at);
 
-            $speed = getSpeed($priceUsd, $previousUsdPrice, $volume, $previousVolume);
+                $btcPerSecond = ($priceBtc - $previousBtcPrice) / $duration;
+                $usdPerSecond = ($priceUsd - $previousUsdPrice) / $duration;
 
-            // dd($previousBtcPrice, $priceBtc, $duration);
+                $speed = getSpeed($priceUsd, $previousUsdPrice, $volume, $previousVolume);
 
-            // dd($previousUsdPrice, $priceUsd, $usdPerSecond);
+                // dd($previousBtcPrice, $priceBtc, $duration);
 
-            $price = Price::create(
-                [
-                    'coin_id' => $databaseCoin->id,
-                    'price_btc' => $priceBtc,
-                    'price_usd' => $priceUsd,
-                    'volume' => $volume,
-                    'supply' => $supply,
-                    'market_cap' => $marketCap,
-                    'percent_market' => $percentChangeMarket,
-                    'percent_volume' => $percentChangeVolume,
-                    'percent_btc' => $percentChangeBtc,
-                    'percent_usd' => $percentChangeUsd,
-                    'btc_s' => $btcPerSecond,
-                    'usd_s' => $usdPerSecond,
-                    'speed' => $speed,
-                ]
-            );
+                // dd($previousUsdPrice, $priceUsd, $usdPerSecond);
+
+                $price = Price::create(
+                    [
+                        'coin_id' => $databaseCoin->id,
+                        'price_btc' => $priceBtc,
+                        'price_usd' => $priceUsd,
+                        'volume' => $volume,
+                        'supply' => $supply,
+                        'market_cap' => $marketCap,
+                        'percent_market' => $percentChangeMarket,
+                        'percent_volume' => $percentChangeVolume,
+                        'percent_btc' => $percentChangeBtc,
+                        'percent_usd' => $percentChangeUsd,
+                        'btc_s' => $btcPerSecond,
+                        'usd_s' => $usdPerSecond,
+                        'speed' => $speed,
+                    ]
+                );
+            }
         }
     }
 
